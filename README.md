@@ -17,7 +17,7 @@ This guide explains how to set up and run an existing Django project using a `re
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/bobyang08250772/kanman.git
+git clone https://github.com/bobyang08250772/coderr_backend.git
 ```
 
 ### 2. Frontend
