@@ -134,11 +134,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
     
     permission_classes = [IsCustomerUser]
     serializer_class = OrderSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-
-        return Order.objects.filter(customer_user=user.userprofile)
+    queryset = Order.objects.all()
 
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -189,7 +185,7 @@ class CompletedOrderCountForBusinessView(APIView):
         ).count()
 
         return Response({
-            "order_count": count
+            "completed_order_count": count
         }, status=status.HTTP_200_OK)
     
 

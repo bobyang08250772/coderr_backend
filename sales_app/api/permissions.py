@@ -18,7 +18,7 @@ class IsUserWithProfile(IsAuthenticated):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return super().has_permission(request, view)
-        return super().has_permission(request, view) and hasattr(request.user, 'userprofile')
+        return super().has_permission(request, view) and hasattr(request.user, 'userprofile') and request.user.userprofile.type == 'customer'
 
 
 class IsStaffForDeleteOrBusinessForPatch(IsAuthenticated):
@@ -41,7 +41,7 @@ class IsCustomerUser(IsAuthenticated):
     Allow access only to authenticated users with a profile.
     """
     def has_permission(self, request, view):
-        return super().has_permission(request, view) and hasattr(request.user, 'userprofile')
+        return super().has_permission(request, view) and hasattr(request.user, 'userprofile') and request.user.userprofile.type == 'customer'
 
 
 class IsBusinessUser(IsAuthenticated):

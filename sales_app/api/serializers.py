@@ -116,7 +116,7 @@ class OfferCreateSerializer(OfferBaseSerializer):
             try:
                 OfferDetail.objects.create(offer=offer, **serializer.validated_data)
             except IntegrityError:
-                raise serializers.ValidationError("Create Detail failed.")
+                raise serializers.ValidationError({"detail": "Create Detail failed."})
 
         return offer
 
@@ -141,8 +141,12 @@ class OfferCreateSerializer(OfferBaseSerializer):
                         setattr(detail, attr, value)
                     detail.save()
                 else:
-                    # Create new package
-                    OfferDetail.objects.create(offer=instance, **detail_data)
+                    # Create new offer
+                    try:
+                         OfferDetail.objects.create(offer=instance, **detail_data)
+                    except IntegrityError:
+                        raise serializers.ValidationError({"detail": "Create Detail failed."})
+                   
 
         return instance
 
