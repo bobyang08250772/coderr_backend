@@ -19,10 +19,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+# Urls
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('user_auth_app.apis.urls')),
-    path('api/', include('sales_app.apis.urls'))
+    path('api/', include('user_auth_app.api.urls')),
+    path('api/', include('sales_app.api.urls'))
 ]
 
+# Medial url
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

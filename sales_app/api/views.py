@@ -131,9 +131,14 @@ class OfferDetailDetailView(generics.RetrieveAPIView):
 
 
 class OrderListCreateView(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
+    
     permission_classes = [IsCustomerUser]
     serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Order.objects.filter(customer_user=user.userprofile)
 
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):

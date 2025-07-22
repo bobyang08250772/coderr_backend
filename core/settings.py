@@ -147,8 +147,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
-    ]
+    ],
+   
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
+    'USE_TZ': True,
+
 }
 
+# Set Timezone 
 USE_TZ = True
 TIME_ZONE = 'Europe/Berlin'

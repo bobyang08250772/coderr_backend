@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from rest_framework import serializers
-from rest_framework.exceptions import NotFound, PermissionDenied
+from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
 from sales_app.models import Offer, OfferDetail, Order, Review
 
@@ -113,7 +113,10 @@ class OfferCreateSerializer(OfferBaseSerializer):
         for detail in details:
             serializer = OfferDetailSerializer(data=detail)
             serializer.is_valid(raise_exception=True)
-            OfferDetail.objects.create(offer=offer, **serializer.validated_data)
+            try:
+                OfferDetail.objects.create(offer=offer, **serializer.validated_data)
+            except IntegrityError:
+                raise serializers.ValidationError("Create Detail failed.")
 
         return offer
 
@@ -164,6 +167,8 @@ class OrderSerializer(StrictModelSerializer):
         extra_kwargs = {
             'customer_user': {'required': False},
         }
+
+    
 
     def create(self, validated_data):
         """
